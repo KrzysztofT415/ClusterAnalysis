@@ -20,16 +20,17 @@ const shouldStop = (oldCentroids, centroids, iterations) => {
 const getDistanceSQ = (a, b) => {
     const diffs = []
     for (let i = 0; i < a.length; ++i) diffs.push(a[i] - b[i])
-    return diffs.reduce((r, e) => (r + (e * e)))
+    return diffs.reduce((r, e) => r + e * e)
 }
 const getLabels = (dataSet, realLabels, centroids) => {
     const labels = {}
-    for (let c = 0; c < centroids.length; ++c)
-        labels[c] = { points: [], centroid: centroids[c], means: [], real: [] }
+    for (let c = 0; c < centroids.length; ++c) labels[c] = { points: [], centroid: centroids[c], means: [], real: [] }
 
     for (let i = 0; i < dataSet.length; ++i) {
         const a = dataSet[i]
-        let closestCentroid = centroids[0], closestCentroidIndex = 0, prevDistance = getDistanceSQ(a, closestCentroid)
+        let closestCentroid = centroids[0],
+            closestCentroidIndex = 0,
+            prevDistance = getDistanceSQ(a, closestCentroid)
 
         for (let j = 1; j < centroids.length; ++j) {
             let centroid = centroids[j]
@@ -113,7 +114,11 @@ const recalculateCentroids = (dataSet, labels) => {
 }
 
 export function KMeans(dataset, realLabels, k, max, useNaiveSharding = true) {
-    let iterations = 0, oldCentroids = null, labels, centroids, max_iterations = max
+    let iterations = 0,
+        oldCentroids = null,
+        labels,
+        centroids,
+        max_iterations = max
 
     if (useNaiveSharding) centroids = getRandomCentroidsNaiveSharding(dataset, k)
     else centroids = getRandomCentroids(dataset, k)

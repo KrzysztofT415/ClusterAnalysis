@@ -1,0 +1,103 @@
+@import '/home/krzysiek/universal/_default_scss_template.scss';
+
+body {
+    width: 100vw;
+    height: 100vh;
+    padding: 3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3vw;
+    background-color: $darkM;
+}
+
+label,
+a {
+    color: $white;
+    padding: 1vh 0;
+    font-size: 1.2pc;
+    text-align: center;
+}
+
+#panel {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+
+    #buttons {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    div {
+        display: grid;
+
+        &.col2 {
+            grid-template-columns: 1fr 0.38fr 1.62fr;
+        }
+        &.col3 {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+
+    input {
+        font-size: 2pc;
+        width: 4pc;
+        text-align: center;
+
+        .checkbox {
+            height: 2vh;
+            width: 2vh;
+        }
+
+        .number {
+            overflow: hidden;
+        }
+    }
+
+    canvas {
+        max-width: 500px;
+        max-height: 500px;
+        background-color: $black;
+    }
+
+    button {
+        padding: 1vh 0;
+        font-size: 1.2pc;
+
+        .chosen {
+            background-color: $secondaryLE;
+        }
+    }
+}
+
+#clusters {
+    display: grid;
+    grid-template-rows: repeat(10, 1fr);
+    gap: 0.4vh;
+
+    div {
+        display: flex;
+        gap: 0.4vh;
+
+        label {
+            background-color: $darkL;
+            width: 2.3pc;
+            height: 2.3pc;
+            padding: 2px;
+            margin: 2px;
+        }
+    }
+}
+
+#info {
+    font-size: 2pc;
+    width: 40vw;
+    height: 80vh;
+    overflow: auto;
+    text-align: left;
+
+    &:hover {
+        color: $secondaryLE;
+    }
+}

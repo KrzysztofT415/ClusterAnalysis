@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cluster analysis with k-means method</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Merriweather+Sans'>
-    <link href='style.css' rel='stylesheet'>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.0/dist/tfjs-vis.umd.min.js"></script>
-    <script type='module' src='./js/script.js'></script>
-</head>
-<body>
-    <div id='panel'>
-        <canvas id='canvas' width='500px' height='500px'></canvas>
-        <div id='data' class='col3'>
-            <button id='loadMnist'>MNIST</button>
-            <button id='loadMy'>MY DATA</button>
-            <button id='loadFriend'>FRIEND DATA</button>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Cluster analysis with k-means method</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans" />
+        <link href="scss/style.min.css" rel="stylesheet" />
+        <script type="module" src="./js/script.js"></script>
+    </head>
+    <body>
+        <div id="panel">
+            <canvas id="canvas" width="500px" height="500px"></canvas>
+            <div id="data" class="col3">
+                <button id="loadMnist">MNIST</button>
+                <button id="loadMy">MY DATA</button>
+                <button id="loadFriend">FRIEND DATA</button>
+            </div>
+            <div class="col2">
+                <label for="clusters_num">CLUSTERS:</label>
+                <input id="clusters_num" type="number" min="1" class="number" />
+                <button id="make_clusters" disabled>MAKE CLUSTERS</button>
+            </div>
+            <div id="buttons"></div>
         </div>
-        <div class='col2'>
-            <label for='clusters_num'>CLUSTERS:</label>
-            <input id='clusters_num' type='number' min='1' class='number'>
-            <button id='make_clusters' disabled>MAKE CLUSTERS</button>
+
+        <div style="display: flex; flex-direction: column">
+            <label>Inertia : <a id="inertia">?</a></label>
+            <label>Cluster values :</label>
+            <div id="clusters"></div>
         </div>
-        <div id='buttons'></div>
-    </div>
 
-    <div style='display: flex; flex-direction: column'>
-        <label>Inertia : <a id='inertia'>?</a></label>
-        <label>Cluster values :</label>
-        <div id='clusters'></div>
-    </div>
-
-    <label id='info'></label>
-</body>
+        <label id="info"></label>
+    </body>
 </html>
