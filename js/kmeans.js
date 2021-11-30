@@ -22,7 +22,7 @@ const getDistanceSQ = (a, b) => {
     for (let i = 0; i < a.length; ++i) diffs.push(a[i] - b[i])
     return diffs.reduce((r, e) => r + e * e)
 }
-const getLabels = (dataSet, realLabels, centroids) => {
+export const getLabels = (dataSet, realLabels, centroids) => {
     const labels = {}
     for (let c = 0; c < centroids.length; ++c) labels[c] = { points: [], centroid: centroids[c], means: [], real: [] }
 

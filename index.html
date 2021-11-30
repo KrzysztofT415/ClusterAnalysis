@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans" />
         <link href="scss/style.min.css" rel="stylesheet" />
-        <script type="module" src="./js/script.js"></script>
+        <script type="module" src="js/script.js"></script>
     </head>
     <body>
         <div id="panel">
@@ -20,12 +20,13 @@
                 <label for="clusters_num">CLUSTERS:</label>
                 <input id="clusters_num" type="number" min="1" class="number" />
                 <button id="make_clusters" disabled>MAKE CLUSTERS</button>
+                <button id="find_closest" disabled>FIND CLUSTERS</button>
             </div>
             <div id="buttons"></div>
         </div>
 
         <div style="display: flex; flex-direction: column">
-            <label>Inertia : <a id="inertia">?</a></label>
+            <label>Inertia : <a id="inertia">?</a><a class="red" id="inertia2">?</a></label>
             <label>Cluster values :</label>
             <div id="clusters"></div>
         </div>

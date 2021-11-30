@@ -1,5 +1,5 @@
 import { MnistData } from './mnist.js'
-import { KMeans } from './kmeans.js'
+import { KMeans, getLabels } from './kmeans.js'
 
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
@@ -77,13 +77,14 @@ const loadData = async (target, folder_path) => {
 
 // CLUSTERING DATA
 
-let clusters_result
+let clusters_result = null,
+    clusters = null
 let group = (arr, chunk) =>
     Array(arr.length / chunk)
         .fill('')
         .map((_, i) => arr.slice(i * chunk, (i + 1) * chunk))
 let makeClusters = _ => {
-    let clusters = document.getElementById('clusters_num').value
+    clusters = document.getElementById('clusters_num').value
     if (!clusters) clusters = 10
     reloadWindow(clusters)
 
@@ -92,12 +93,10 @@ let makeClusters = _ => {
     let labels = group(training_labels, 10).map(val => val.indexOf(1))
     clusters_result = KMeans(data, labels, clusters, 20)
     info.innerText += '-> Clustered loaded data\n'
-    console.log(clusters_result)
 
     for (let i = 0; i < clusters_result.clusters.length; ++i) {
         let cluster = clusters_result.clusters[i]
         for (let j = 0; j < cluster.real.length; ++j) {
-            console.log(`cl${i + 1}-nm${cluster.real[j]}`)
             let number_obj = document.getElementById(`cl${i + 1}-nm${cluster.real[j]}`)
             number_obj.innerText = (parseInt(number_obj.innerText === '-' ? 0 : number_obj.innerText) + 1).toString()
         }
@@ -105,9 +104,38 @@ let makeClusters = _ => {
 
     let inertia = 0
     for (const cluster of clusters_result.clusters) inertia += cluster.means.reduce((sum, val) => sum + val)
-    document.getElementById('inertia').innerText = inertia.toString()
+    document.getElementById('inertia').innerText = (inertia / labels.length).toFixed(2)
 
     for (let button of document.getElementById('buttons').children) button.disabled = false
+    document.getElementById('find_closest').disabled = false
+}
+let findClosestCentroids = () => {
+    if (!clusters_result || !clusters) return
+    info.innerText += '-> Finding clusters\n'
+    let data = group(training_data, 784)
+    let labels = group(training_labels, 10).map(val => val.indexOf(1))
+
+    let local_results = getLabels(data, labels, clusters_result.centroids)
+    console.log(local_results)
+
+    for (let i = 0; i < clusters; ++i) {
+        for (let j = 0; j < 10; ++j) {
+            document.getElementById(`acl${i + 1}-nm${j}`).innerText = '-'
+        }
+    }
+    for (let i = 0; i < Object.values(local_results).length; ++i) {
+        let cluster = local_results[i]
+        for (let j = 0; j < cluster.real.length; ++j) {
+            let number_obj = document.getElementById(`acl${i + 1}-nm${cluster.real[j]}`)
+            number_obj.innerText = '+' + (parseInt(number_obj.innerText === '-' ? 0 : number_obj.innerText) + 1).toString()
+        }
+    }
+
+    let inertia = 0
+    for (let i = 0; i < Object.values(local_results).length; ++i) {
+        if (local_results[i].means.length > 0) inertia += local_results[i].means.reduce((sum, val) => sum + val)
+    }
+    document.getElementById('inertia2').innerText = '+' + (inertia / labels.length).toFixed(2)
 }
 let loadCluster = i => {
     info.innerText += '-> Showing cluster ' + i + ' data\n'
@@ -156,15 +184,20 @@ let reloadWindow = clusters => {
         let cluster = document.getElementById('cluster' + i)
         cluster.innerHTML = `<label>[${i}]</label>`
         for (let j = 0; j < 10; ++j) {
-            cluster.innerHTML += `<label id='cl${i}-nm${j}'>-</label>`
+            cluster.innerHTML += `<label><a id='cl${i}-nm${j}'>-</a><a class='red' id='acl${i}-nm${j}'>-</a></label>`
         }
     }
 }
 
 document.getElementById('loadMnist').onclick = loadMnist
 document.getElementById('loadMy').onclick = event => loadData(event.target, 'test_data_mine')
-document.getElementById('loadFriend').onclick = event => loadData(event.target, 'test_data_friend')
+let i = 0
+document.getElementById('loadFriend').onclick = event => {
+    loadData(event.target, 'test_data_friend' + i)
+    i = (i + 1) % 2
+}
 document.getElementById('make_clusters').onclick = makeClusters
+document.getElementById('find_closest').onclick = findClosestCentroids
 
 window.onload = () => reloadWindow(10)
 

@@ -17,6 +17,7 @@ a {
     padding: 1vh 0;
     font-size: 1.2pc;
     text-align: center;
+    margin: auto;
 }
 
 #panel {
@@ -33,7 +34,7 @@ a {
         display: grid;
 
         &.col2 {
-            grid-template-columns: 1fr 0.38fr 1.62fr;
+            grid-template-columns: 1fr 0.38fr 0.81fr 0.81fr;
         }
         &.col3 {
             grid-template-columns: 1fr 1fr 1fr;
@@ -82,7 +83,7 @@ a {
 
         label {
             background-color: $darkL;
-            width: 2.3pc;
+            width: 3.45pc;
             height: 2.3pc;
             padding: 2px;
             margin: 2px;
@@ -100,4 +101,8 @@ a {
     &:hover {
         color: $secondaryLE;
     }
+}
+
+.red {
+    color: $primaryD;
 }
